@@ -175,23 +175,27 @@ class _CategoryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => SizedBox(
-          height: 48,
-          child: ListView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            scrollDirection: Axis.horizontal,
-            itemCount: controller.categories.length,
-            itemBuilder: (context, i) {
-              final cat = controller.categories[i];
-              return CategoryChip(
-                label: cat['label']!,
-                flag: cat['flag'],
-                isSelected: controller.selectedCategory.value == cat['label'],
-                onTap: () => controller.selectCategory(cat['label']!),
-              );
-            },
-          ),
-        ));
+    return Obx(() {
+      // Capture reactive value here — itemBuilder is lazy and runs outside Obx scope
+      final selectedCategory = controller.selectedCategory.value;
+      return SizedBox(
+        height: 48,
+        child: ListView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          scrollDirection: Axis.horizontal,
+          itemCount: controller.categories.length,
+          itemBuilder: (context, i) {
+            final cat = controller.categories[i];
+            return CategoryChip(
+              label: cat['label']!,
+              flag: cat['flag'],
+              isSelected: selectedCategory == cat['label'],
+              onTap: () => controller.selectCategory(cat['label']!),
+            );
+          },
+        ),
+      );
+    });
   }
 }
 
@@ -202,21 +206,20 @@ class _FeedGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (controller.isLoading.value) {
+      // Snapshot all reactive values here — GridView.builder's itemBuilder
+      // is lazy and runs outside the Obx tracking scope
+      final isLoading = controller.isLoading.value;
+      final items = controller.feedItems.toList();
+
+      if (isLoading) {
         return const Center(
-          child: CircularProgressIndicator(
-            color: AppColors.primary,
-            strokeWidth: 2.5,
-          ),
+          child: CircularProgressIndicator(color: AppColors.primary, strokeWidth: 2.5),
         );
       }
 
-      if (controller.feedItems.isEmpty) {
+      if (items.isEmpty) {
         return const Center(
-          child: Text(
-            'No streams available',
-            style: TextStyle(color: AppColors.textSecondary),
-          ),
+          child: Text('No streams available', style: TextStyle(color: AppColors.textSecondary)),
         );
       }
 
@@ -232,9 +235,8 @@ class _FeedGrid extends StatelessWidget {
             mainAxisSpacing: 10,
             childAspectRatio: 0.72,
           ),
-          itemCount: controller.feedItems.length,
-          itemBuilder: (context, i) =>
-              StreamCard(item: controller.feedItems[i]),
+          itemCount: items.length,
+          itemBuilder: (context, i) => StreamCard(item: items[i]),
         ),
       );
     });
