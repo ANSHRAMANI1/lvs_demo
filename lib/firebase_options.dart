@@ -31,7 +31,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '726301720796',
     projectId: 'lvs-demo',
     storageBucket: 'lvs-demo.firebasestorage.app',
-    androidClientId: '726301720796-m2o6576menbop4hkmbb31c0ilf5ggbok.apps.googleusercontent.com',
+    androidClientId: '726301720796-hh1qd7ip8tbpdktacnhn0ckneritn44r.apps.googleusercontent.com',
     iosClientId: '726301720796-rgv6r0u13nchpri2ht5nbdvss3usf940.apps.googleusercontent.com',
     iosBundleId: 'com.lvsinnovation.aliveApp',
   );

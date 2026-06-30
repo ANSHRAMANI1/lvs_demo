@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "726301720796-hh1qd7ip8tbpdktacnhn0ckneritn44r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lvsinnovation.alive_app",
+            "certificate_hash": "041d0352a2b4265b994e9417482a0527ac0a5f63"
+          }
+        },
+        {
           "client_id": "726301720796-m2o6576menbop4hkmbb31c0ilf5ggbok.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
