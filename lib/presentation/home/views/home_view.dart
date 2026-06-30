@@ -1,0 +1,230 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../../app/theme/app_colors.dart';
+import '../controllers/home_controller.dart';
+import '../widgets/bottom_nav_bar.dart';
+import '../widgets/category_chip.dart';
+import '../widgets/stream_card.dart';
+
+class HomeView extends GetView<HomeController> {
+  const HomeView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      body: Column(
+        children: [
+          _TopBar(),
+          _TabRow(controller: controller),
+          _CategoryRow(controller: controller),
+          Expanded(child: _FeedGrid(controller: controller)),
+        ],
+      ),
+      bottomNavigationBar: Obx(() => HomeBottomNavBar(
+            selectedIndex: controller.selectedNavIndex.value,
+            onTap: controller.selectNav,
+          )),
+    );
+  }
+}
+
+class _TopBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.asset(
+                'assets/images/logo.png',
+                width: 36,
+                height: 36,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, trace) => Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    gradient: AppColors.primaryGradient,
+                  ),
+                  child: const Icon(Icons.live_tv_rounded,
+                      color: Colors.white, size: 20),
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            ShaderMask(
+              shaderCallback: (bounds) =>
+                  AppColors.primaryGradient.createShader(bounds),
+              child: const Text(
+                'Alive',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                  letterSpacing: 0.5,
+                ),
+              ),
+            ),
+            const Spacer(),
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.notifications_rounded,
+                      color: Colors.white, size: 26),
+                ),
+                Positioned(
+                  top: 6,
+                  right: 6,
+                  child: Container(
+                    width: 18,
+                    height: 18,
+                    decoration: const BoxDecoration(
+                      color: AppColors.liveRed,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Center(
+                      child: Text(
+                        '3',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.account_balance_wallet_rounded,
+                  color: AppColors.goldenYellow, size: 26),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _TabRow extends StatelessWidget {
+  final HomeController controller;
+  const _TabRow({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => Row(
+          children: List.generate(controller.tabs.length, (i) {
+            final isSelected = controller.selectedTabIndex.value == i;
+            return Expanded(
+              child: GestureDetector(
+                onTap: () => controller.selectTab(i),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: isSelected
+                            ? AppColors.primary
+                            : Colors.transparent,
+                        width: 2.5,
+                      ),
+                    ),
+                  ),
+                  child: Text(
+                    controller.tabs[i],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: isSelected
+                          ? FontWeight.w700
+                          : FontWeight.w400,
+                      color: isSelected
+                          ? AppColors.primary
+                          : AppColors.textSecondary,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }),
+        ));
+  }
+}
+
+class _CategoryRow extends StatelessWidget {
+  final HomeController controller;
+  const _CategoryRow({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => SizedBox(
+          height: 48,
+          child: ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+            scrollDirection: Axis.horizontal,
+            itemCount: controller.categories.length,
+            itemBuilder: (context, i) => CategoryChip(
+              label: controller.categories[i],
+              isSelected:
+                  controller.selectedCategory.value == controller.categories[i],
+              onTap: () => controller.selectCategory(controller.categories[i]),
+            ),
+          ),
+        ));
+  }
+}
+
+class _FeedGrid extends StatelessWidget {
+  final HomeController controller;
+  const _FeedGrid({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return const Center(
+          child: CircularProgressIndicator(
+            color: AppColors.primary,
+            strokeWidth: 2.5,
+          ),
+        );
+      }
+
+      if (controller.feedItems.isEmpty) {
+        return const Center(
+          child: Text(
+            'No streams available',
+            style: TextStyle(color: AppColors.textSecondary),
+          ),
+        );
+      }
+
+      return RefreshIndicator(
+        color: AppColors.primary,
+        backgroundColor: AppColors.surface,
+        onRefresh: controller.loadFeed,
+        child: GridView.builder(
+          padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            childAspectRatio: 0.72,
+          ),
+          itemCount: controller.feedItems.length,
+          itemBuilder: (context, i) =>
+              StreamCard(item: controller.feedItems[i]),
+        ),
+      );
+    });
+  }
+}
