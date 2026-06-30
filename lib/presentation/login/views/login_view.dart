@@ -8,9 +8,32 @@ class LoginView extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: true,
+    // Force light theme for this screen regardless of system dark mode setting
+    return Theme(
+      data: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: AppColors.primary,
+        colorScheme: const ColorScheme.light(primary: AppColors.primary),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: const Color(0xFFF5F5F5),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+          ),
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: true,
       body: Column(
         children: [
           Expanded(
@@ -44,7 +67,7 @@ class LoginView extends GetView<LoginController> {
           _SocialSection(controller: controller),
         ],
       ),
-    );
+    )); // closes Theme + Scaffold
   }
 }
 
