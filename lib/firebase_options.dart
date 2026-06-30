@@ -25,13 +25,14 @@ class DefaultFirebaseOptions {
     projectId: 'lvs-demo',
     storageBucket: 'lvs-demo.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBXwVHf3kaFMcUFIl3kXkbFECJcBA-vR6U',
     appId: '1:726301720796:ios:ef99295b40c67a2cd33419',
     messagingSenderId: '726301720796',
     projectId: 'lvs-demo',
     storageBucket: 'lvs-demo.firebasestorage.app',
+    androidClientId: '726301720796-m2o6576menbop4hkmbb31c0ilf5ggbok.apps.googleusercontent.com',
+    iosClientId: '726301720796-rgv6r0u13nchpri2ht5nbdvss3usf940.apps.googleusercontent.com',
     iosBundleId: 'com.lvsinnovation.aliveApp',
   );
 }

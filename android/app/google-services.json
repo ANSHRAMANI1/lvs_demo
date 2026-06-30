@@ -12,7 +12,20 @@
           "package_name": "com.lvsinnovation.alive_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "726301720796-m2o6576menbop4hkmbb31c0ilf5ggbok.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lvsinnovation.alive_app",
+            "certificate_hash": "52ef9cb348bd0c21274768581ff8a0d9740ade1d"
+          }
+        },
+        {
+          "client_id": "726301720796-qi6gn7p95vu5b23a5ltl9t3g278deibj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCQ2Xpjx1xRuZD7FeUkAOp-4x30V75vJgw"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "726301720796-qi6gn7p95vu5b23a5ltl9t3g278deibj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "726301720796-rgv6r0u13nchpri2ht5nbdvss3usf940.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lvsinnovation.aliveApp"
+              }
+            }
+          ]
         }
       }
     }
