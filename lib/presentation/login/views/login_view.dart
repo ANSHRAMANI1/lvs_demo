@@ -10,11 +10,13 @@ class LoginView extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
+      resizeToAvoidBottomInset: true,
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: SafeArea(
+                bottom: false,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
@@ -31,16 +33,16 @@ class LoginView extends GetView<LoginController> {
                       const SizedBox(height: 12),
                       const _ForgotPassword(),
                       const SizedBox(height: 28),
-                      Obx(() => _LoginButton(controller: controller)),
-                      const SizedBox(height: 8),
+                      const _LoginButton(),
+                      const SizedBox(height: 16),
                     ],
                   ),
                 ),
               ),
             ),
-            _SocialSection(controller: controller),
-          ],
-        ),
+          ),
+          _SocialSection(controller: controller),
+        ],
       ),
     );
   }
@@ -98,11 +100,7 @@ class _WelcomeText extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           'Sign in to continue your live streaming journey.',
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.grey.shade500,
-            height: 1.4,
-          ),
+          style: TextStyle(fontSize: 14, color: Colors.grey.shade500, height: 1.4),
         ),
       ],
     );
@@ -119,11 +117,7 @@ class _EmailField extends StatelessWidget {
       children: [
         const Text(
           'Email ID or Phone Number',
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: Color(0xFF333333),
-          ),
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF333333)),
         ),
         const SizedBox(height: 8),
         TextField(
@@ -134,8 +128,7 @@ class _EmailField extends StatelessWidget {
             hintStyle: TextStyle(fontSize: 13, color: Colors.grey.shade400),
             filled: true,
             fillColor: const Color(0xFFF5F5F5),
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
@@ -164,11 +157,7 @@ class _PasswordFieldState extends State<_PasswordField> {
       children: [
         const Text(
           'Password',
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: Color(0xFF333333),
-          ),
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF333333)),
         ),
         const SizedBox(height: 8),
         TextField(
@@ -179,8 +168,7 @@ class _PasswordFieldState extends State<_PasswordField> {
             hintStyle: TextStyle(fontSize: 13, color: Colors.grey.shade400),
             filled: true,
             fillColor: const Color(0xFFF5F5F5),
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
@@ -224,24 +212,22 @@ class _ForgotPassword extends StatelessWidget {
   }
 }
 
+// No observables used — plain widget, no Obx
 class _LoginButton extends StatelessWidget {
-  final LoginController controller;
-  const _LoginButton({required this.controller});
+  const _LoginButton();
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Get.snackbar(
-          'Login',
-          'Please use Google Sign-In to continue.',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: AppColors.surface,
-          colorText: Colors.white,
-          margin: const EdgeInsets.all(16),
-          borderRadius: 12,
-        );
-      },
+      onTap: () => Get.snackbar(
+        'Login',
+        'Please use "Continue with Google" to sign in.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColors.surface,
+        colorText: Colors.white,
+        margin: const EdgeInsets.all(16),
+        borderRadius: 12,
+      ),
       child: Container(
         width: double.infinity,
         height: 52,
@@ -259,12 +245,7 @@ class _LoginButton extends StatelessWidget {
         child: const Center(
           child: Text(
             'Login',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-              letterSpacing: 0.5,
-            ),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white, letterSpacing: 0.5),
           ),
         ),
       ),
@@ -272,38 +253,62 @@ class _LoginButton extends StatelessWidget {
   }
 }
 
+// ClipPath gives this section a bounded layout — no overflow possible
 class _SocialSection extends StatelessWidget {
   final LoginController controller;
   const _SocialSection({required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        CustomPaint(
-          painter: _WavePainter(),
-          child: Container(
-            padding: const EdgeInsets.fromLTRB(24, 48, 24, 16),
+    return ClipPath(
+      clipper: _WaveClipper(),
+      child: Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF7ED321), Color(0xFF4CAF50)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: SafeArea(
+          top: false,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(24, 44, 24, 16),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
+                Text(
                   'or continue with',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.white70,
-                  ),
+                  style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.85)),
                 ),
-                const SizedBox(height: 16),
-                Obx(() => _GoogleButton(controller: controller)),
-                const SizedBox(height: 12),
-                const _FacebookButton(),
-                const SizedBox(height: 16),
+                const SizedBox(height: 14),
+                // Observable read directly inside Obx closure — proper GetX tracking
+                Obx(() {
+                  final isLoading = controller.isLoading.value;
+                  return _SocialButton(
+                    onTap: isLoading ? null : controller.signInWithGoogle,
+                    child: isLoading
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation(AppColors.primary),
+                            ),
+                          )
+                        : const _GoogleContent(),
+                  );
+                }),
+                const SizedBox(height: 10),
+                const _SocialButton(onTap: null, child: _FacebookContent()),
+                const SizedBox(height: 14),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "Don't have an account? ",
-                      style: TextStyle(fontSize: 13, color: Colors.white70),
+                      style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.8)),
                     ),
                     GestureDetector(
                       onTap: () {},
@@ -320,49 +325,24 @@ class _SocialSection extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
               ],
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 }
 
-class _WavePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..shader = const LinearGradient(
-        colors: [Color(0xFF7ED321), Color(0xFF4CAF50)],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
-
-    final path = Path()
-      ..moveTo(0, 36)
-      ..quadraticBezierTo(size.width * 0.25, 0, size.width * 0.5, 16)
-      ..quadraticBezierTo(size.width * 0.75, 32, size.width, 8)
-      ..lineTo(size.width, size.height)
-      ..lineTo(0, size.height)
-      ..close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-class _GoogleButton extends StatelessWidget {
-  final LoginController controller;
-  const _GoogleButton({required this.controller});
+class _SocialButton extends StatelessWidget {
+  final VoidCallback? onTap;
+  final Widget child;
+  const _SocialButton({required this.onTap, required this.child});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: controller.isLoading.value ? null : controller.signInWithGoogle,
+      onTap: onTap,
       child: Container(
         width: double.infinity,
         height: 50,
@@ -370,87 +350,71 @@ class _GoogleButton extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(30),
           boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
+            BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 8, offset: const Offset(0, 2)),
           ],
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (controller.isLoading.value)
-              const SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation(AppColors.primary),
-                ),
-              )
-            else ...[
-              Image.network(
-                'https://www.google.com/favicon.ico',
-                width: 20,
-                height: 20,
-                errorBuilder: (context, error, trace) => const Icon(
-                  Icons.g_mobiledata_rounded,
-                  color: Color(0xFF4285F4),
-                  size: 24,
-                ),
-              ),
-              const SizedBox(width: 10),
-              const Text(
-                'Continue with Google',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF333333),
-                ),
-              ),
-            ],
-          ],
-        ),
+        child: Center(child: child),
       ),
     );
   }
 }
 
-class _FacebookButton extends StatelessWidget {
-  const _FacebookButton();
+class _GoogleContent extends StatelessWidget {
+  const _GoogleContent();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 50,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: const Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.facebook_rounded, color: Color(0xFF1877F2), size: 22),
-          SizedBox(width: 10),
-          Text(
-            'Continue with Facebook',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF333333),
-            ),
-          ),
-        ],
-      ),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Image.network(
+          'https://www.google.com/favicon.ico',
+          width: 20,
+          height: 20,
+          errorBuilder: (context, error, trace) =>
+              const Icon(Icons.g_mobiledata_rounded, color: Color(0xFF4285F4), size: 24),
+        ),
+        const SizedBox(width: 10),
+        const Text(
+          'Continue with Google',
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF333333)),
+        ),
+      ],
     );
   }
+}
+
+class _FacebookContent extends StatelessWidget {
+  const _FacebookContent();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(Icons.facebook_rounded, color: Color(0xFF1877F2), size: 22),
+        SizedBox(width: 10),
+        Text(
+          'Continue with Facebook',
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF333333)),
+        ),
+      ],
+    );
+  }
+}
+
+class _WaveClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    return Path()
+      ..moveTo(0, 32)
+      ..quadraticBezierTo(size.width * 0.25, 0, size.width * 0.5, 18)
+      ..quadraticBezierTo(size.width * 0.75, 36, size.width, 10)
+      ..lineTo(size.width, size.height)
+      ..lineTo(0, size.height)
+      ..close();
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }
