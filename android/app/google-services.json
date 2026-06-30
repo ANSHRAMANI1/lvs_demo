@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "726301720796",
+    "project_id": "lvs-demo",
+    "storage_bucket": "lvs-demo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:726301720796:android:f8c97a8c41aba4bbd33419",
+        "android_client_info": {
+          "package_name": "com.lvsinnovation.alive_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQ2Xpjx1xRuZD7FeUkAOp-4x30V75vJgw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -103,10 +103,19 @@ class _TopBar extends StatelessWidget {
                 ),
               ],
             ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.account_balance_wallet_rounded,
-                  color: AppColors.goldenYellow, size: 26),
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                width: 36,
+                height: 36,
+                margin: const EdgeInsets.only(right: 4),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: AppColors.primaryGradient,
+                ),
+                child: const Icon(Icons.person_rounded,
+                    color: Colors.white, size: 20),
+              ),
             ),
           ],
         ),
@@ -172,12 +181,15 @@ class _CategoryRow extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
             scrollDirection: Axis.horizontal,
             itemCount: controller.categories.length,
-            itemBuilder: (context, i) => CategoryChip(
-              label: controller.categories[i],
-              isSelected:
-                  controller.selectedCategory.value == controller.categories[i],
-              onTap: () => controller.selectCategory(controller.categories[i]),
-            ),
+            itemBuilder: (context, i) {
+              final cat = controller.categories[i];
+              return CategoryChip(
+                label: cat['label']!,
+                flag: cat['flag'],
+                isSelected: controller.selectedCategory.value == cat['label'],
+                onTap: () => controller.selectCategory(cat['label']!),
+              );
+            },
           ),
         ));
   }

@@ -91,7 +91,7 @@ class HomeBottomNavBar extends StatelessWidget {
                     ],
                   ),
                   child: const Icon(
-                    Icons.videocam_rounded,
+                    Icons.sensors_rounded,
                     color: Colors.white,
                     size: 28,
                   ),

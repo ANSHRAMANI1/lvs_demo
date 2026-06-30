@@ -14,13 +14,14 @@ class HomeController extends GetxController {
   final RxBool isLoading = true.obs;
 
   final List<String> tabs = ['Stream', 'Hot', 'Follow'];
-  final List<String> categories = [
-    'Global',
-    'India',
-    'Philippines',
-    'Brazil',
-    'Japan',
-    'Pakistan',
+
+  final List<Map<String, String>> categories = [
+    {'label': 'Global', 'flag': '🌐'},
+    {'label': 'India', 'flag': '🇮🇳'},
+    {'label': 'Philippines', 'flag': '🇵🇭'},
+    {'label': 'Brazil', 'flag': '🇧🇷'},
+    {'label': 'Japan', 'flag': '🇯🇵'},
+    {'label': 'Pakistan', 'flag': '🇵🇰'},
   ];
 
   @override
@@ -34,8 +35,8 @@ class HomeController extends GetxController {
     loadFeed();
   }
 
-  void selectCategory(String category) {
-    selectedCategory.value = category;
+  void selectCategory(String label) {
+    selectedCategory.value = label;
     loadFeed();
   }
 
