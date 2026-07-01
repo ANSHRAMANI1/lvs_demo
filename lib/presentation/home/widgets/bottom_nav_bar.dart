@@ -4,8 +4,8 @@ import '../../../app/theme/app_colors.dart';
 // Geometry constants shared between painter and layout
 const double _barH = 68;
 const double _circleD = 52;
-const double _notchR = 30; // slightly larger than circle radius for a small gap
-const double _cornerR = 22;
+const double _notchR = 32;   // gives a 4px gap around the 26px-radius circle
+const double _cornerR = 20;
 const double _protrusion = _circleD / 2; // 26px above bar top
 const double _totalH = _barH + _protrusion; // 94px
 
@@ -114,8 +114,8 @@ class HomeBottomNavBar extends StatelessWidget {
   }
 }
 
-/// Paints the green gradient bar with rounded top corners and a circular notch
-/// cut from the centre of the top edge.
+/// Paints the green gradient bar with rounded top corners and a smooth
+/// circular notch drawn manually for clean rendering on all GPU paths.
 class _NavBarPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -127,23 +127,35 @@ class _NavBarPainter extends CustomPainter {
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
       ..style = PaintingStyle.fill;
 
-    // Full bar with rounded top corners
-    final barPath = Path()
-      ..addRRect(RRect.fromRectAndCorners(
-        Rect.fromLTWH(0, 0, size.width, size.height),
-        topLeft: const Radius.circular(_cornerR),
-        topRight: const Radius.circular(_cornerR),
-      ));
+    final cx = size.width / 2;
+    const cR = _cornerR;
+    const nR = _notchR;
 
-    // Circle centred at the top edge = the notch
-    final notchPath = Path()
-      ..addOval(Rect.fromCircle(
-        center: Offset(size.width / 2, 0),
-        radius: _notchR,
-      ));
+    // Trace bar boundary clockwise starting from bottom-left.
+    final path = Path()
+      // bottom-left → bottom-right
+      ..moveTo(0, size.height)
+      ..lineTo(size.width, size.height)
+      // bottom-right → top-right (right side up)
+      ..lineTo(size.width, cR)
+      // top-right rounded corner
+      ..arcToPoint(Offset(size.width - cR, 0),
+          radius: const Radius.circular(cR), clockwise: false)
+      // top edge right → notch entry
+      ..lineTo(cx + nR, 0)
+      // notch arc: from right entry, curves DOWN then back up to left entry
+      // clockwise=false in Flutter (Y-down) = arc goes downward
+      ..arcToPoint(Offset(cx - nR, 0),
+          radius: const Radius.circular(nR), clockwise: false)
+      // notch exit → top edge left
+      ..lineTo(cR, 0)
+      // top-left rounded corner
+      ..arcToPoint(Offset(0, cR),
+          radius: const Radius.circular(cR), clockwise: false)
+      // left side down → close
+      ..lineTo(0, size.height);
 
-    // Subtract notch from bar
-    final path = Path.combine(PathOperation.difference, barPath, notchPath);
+    path.close();
     canvas.drawPath(path, paint);
   }
 
