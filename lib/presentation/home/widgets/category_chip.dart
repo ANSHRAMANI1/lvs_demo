@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../app/theme/app_colors.dart';
 
 class CategoryChip extends StatelessWidget {
   final String label;
@@ -21,33 +20,53 @@ class CategoryChip extends StatelessWidget {
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.only(right: 8),
-        padding: EdgeInsets.symmetric(
-          horizontal: flag != null ? 12 : 16,
-          vertical: 7,
-        ),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          border: isSelected
-              ? null
-              : Border.all(color: const Color(0xFFDDDDDD)),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (flag != null) ...[
-              Text(flag!, style: const TextStyle(fontSize: 14)),
-              const SizedBox(width: 5),
-            ],
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                color: isSelected ? Colors.white : const Color(0xFF555555),
+        // Gradient border technique: outer gradient container acts as the border,
+        // inner container provides the pale green fill.
+        decoration: isSelected
+            ? BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF7ED321), Color(0xFF3A9900)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(24),
+              )
+            : BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: const Color(0xFFDDDDDD)),
               ),
-            ),
-          ],
+        padding: isSelected ? const EdgeInsets.all(2) : EdgeInsets.zero,
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: flag != null ? 12 : 16,
+            vertical: 7,
+          ),
+          decoration: isSelected
+              ? BoxDecoration(
+                  color: const Color(0xFFEFF9D6),
+                  borderRadius: BorderRadius.circular(22),
+                )
+              : null,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (flag != null) ...[
+                Text(flag!, style: const TextStyle(fontSize: 14)),
+                const SizedBox(width: 5),
+              ],
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                  color: isSelected
+                      ? const Color(0xFF1A1A1A)
+                      : const Color(0xFF555555),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
