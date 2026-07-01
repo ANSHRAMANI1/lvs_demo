@@ -102,18 +102,18 @@ class _TopBar extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(width: 10),
             GestureDetector(
               onTap: () {},
               child: Container(
-                width: 36,
-                height: 36,
-                margin: const EdgeInsets.only(right: 4),
+                width: 42,
+                height: 42,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: AppColors.primaryGradient,
                 ),
                 child: const Icon(Icons.person_rounded,
-                    color: Colors.white, size: 20),
+                    color: Colors.white, size: 24),
               ),
             ),
           ],
