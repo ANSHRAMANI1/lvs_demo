@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../../app/theme/app_colors.dart';
 
+// Total height = circle_protrusion (28px) + green_bar (62px) = 90px
+// Circle (56px) centered at the top edge of the green bar.
+const double _barHeight = 62;
+const double _circleSize = 56;
+const double _protrusion = _circleSize / 2; // 28px above green bar
+const double _totalHeight = _barHeight + _protrusion; // 90px
+
 class HomeBottomNavBar extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onTap;
@@ -14,16 +21,17 @@ class HomeBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 76,
+      height: _totalHeight,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
+          // Green gradient bar — occupies the BOTTOM _barHeight pixels
           Positioned(
             bottom: 0,
             left: 0,
             right: 0,
             child: Container(
-              height: 76,
+              height: _barHeight,
               decoration: const BoxDecoration(
                 gradient: AppColors.primaryGradient,
               ),
@@ -43,9 +51,10 @@ class HomeBottomNavBar extends StatelessWidget {
                     selectedIndex: selectedIndex,
                     onTap: onTap,
                   ),
+                  // Centre slot kept empty — Go Live circle is above via Positioned
                   const Expanded(child: SizedBox()),
                   _NavItem(
-                    icon: Icons.chat_bubble_rounded,
+                    icon: Icons.send_rounded,
                     label: 'Chats',
                     index: 3,
                     selectedIndex: selectedIndex,
@@ -62,8 +71,10 @@ class HomeBottomNavBar extends StatelessWidget {
               ),
             ),
           ),
+
+          // Go Live — circle centre sits exactly at the top edge of the green bar
           Positioned(
-            bottom: 4,
+            top: 0,   // circle starts at y=0 in the 90px SizedBox
             left: 0,
             right: 0,
             child: Center(
@@ -73,16 +84,16 @@ class HomeBottomNavBar extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      width: 52,
-                      height: 52,
+                      width: _circleSize,
+                      height: _circleSize,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.18),
-                            blurRadius: 12,
-                            spreadRadius: 1,
+                            color: Colors.black.withValues(alpha: 0.15),
+                            blurRadius: 10,
+                            offset: const Offset(0, 2),
                           ),
                         ],
                       ),
@@ -92,7 +103,7 @@ class HomeBottomNavBar extends StatelessWidget {
                         size: 26,
                       ),
                     ),
-                    const SizedBox(height: 3),
+                    const SizedBox(height: 4),
                     const Text(
                       'Go Live',
                       style: TextStyle(
@@ -139,7 +150,7 @@ class _NavItem extends StatelessWidget {
           children: [
             Icon(
               icon,
-              size: 24,
+              size: 22,
               color: isSelected ? Colors.white : Colors.white70,
             ),
             const SizedBox(height: 3),
