@@ -4,7 +4,8 @@ import '../../../app/theme/app_colors.dart';
 // Geometry constants shared between painter and layout
 const double _barH = 68;
 const double _circleD = 52;
-const double _notchR = 32;   // gives a 4px gap around the 26px-radius circle
+const double _notchR = 32;
+const double _shoulderR = 8; // quarter-circle shoulder for smooth bar→notch transition
 const double _cornerR = 20;
 const double _protrusion = _circleD / 2; // 26px above bar top
 const double _totalH = _barH + _protrusion; // 94px
@@ -130,6 +131,7 @@ class _NavBarPainter extends CustomPainter {
     final cx = size.width / 2;
     const cR = _cornerR;
     const nR = _notchR;
+    const sR = _shoulderR;
 
     // Trace bar boundary clockwise starting from bottom-left.
     final path = Path()
@@ -141,13 +143,20 @@ class _NavBarPainter extends CustomPainter {
       // top-right rounded corner
       ..arcToPoint(Offset(size.width - cR, 0),
           radius: const Radius.circular(cR), clockwise: false)
-      // top edge right → notch entry
-      ..lineTo(cx + nR, 0)
-      // notch arc: from right entry, curves DOWN then back up to left entry
-      // clockwise=true in Flutter (Y-down screen coords) = arc goes downward
-      ..arcToPoint(Offset(cx - nR, 0),
+      // flat top right → right shoulder entry
+      ..lineTo(cx + nR + sR, 0)
+      // right shoulder: quarter-circle curving DOWN into notch
+      // center at (cx+nR, 0); arc goes from right→down = clockwise on screen
+      ..arcToPoint(Offset(cx + nR, sR),
+          radius: const Radius.circular(sR), clockwise: true)
+      // notch arc: concave curve from right to left, going downward
+      ..arcToPoint(Offset(cx - nR, sR),
           radius: const Radius.circular(nR), clockwise: true)
-      // notch exit → top edge left
+      // left shoulder: quarter-circle curving back UP to bar top
+      // center at (cx-nR, 0); arc goes from down→left = counterclockwise on screen
+      ..arcToPoint(Offset(cx - nR - sR, 0),
+          radius: const Radius.circular(sR), clockwise: false)
+      // flat top left
       ..lineTo(cR, 0)
       // top-left rounded corner
       ..arcToPoint(Offset(0, cR),
