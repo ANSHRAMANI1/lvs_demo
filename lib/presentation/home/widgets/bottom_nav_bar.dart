@@ -146,9 +146,9 @@ class _NavBarPainter extends CustomPainter {
       // flat top right → right shoulder entry
       ..lineTo(cx + nR + sR, 0)
       // right shoulder: quarter-circle curving DOWN into notch
-      // center at (cx+nR, 0); arc goes from right→down = clockwise on screen
+      // center at (cx+nR+sR, sR); CCW arc gives correct tangent (incoming=LEFT, exit=DOWN)
       ..arcToPoint(Offset(cx + nR, sR),
-          radius: const Radius.circular(sR), clockwise: true)
+          radius: const Radius.circular(sR), clockwise: false)
       // notch arc: concave curve from right to left, going downward
       ..arcToPoint(Offset(cx - nR, sR),
           radius: const Radius.circular(nR), clockwise: true)
