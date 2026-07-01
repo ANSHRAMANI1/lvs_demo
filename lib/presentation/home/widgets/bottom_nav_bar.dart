@@ -4,8 +4,8 @@ import '../../../app/theme/app_colors.dart';
 // Geometry constants shared between painter and layout
 const double _barH = 68;
 const double _circleD = 52;
-const double _notchHalfW = 42.0; // half-width of notch opening at bar top
-const double _notchDepth = 30.0; // depth of notch (circle radius 26 + 4px clearance)
+const double _notchHalfW = 36.0; // half-width of notch opening at bar top
+const double _notchDepth = 28.0; // depth of notch (circle radius 26 + 2px clearance)
 const double _cornerR = 20;
 const double _protrusion = _circleD / 2; // 26px above bar top
 const double _totalH = _barH + _protrusion; // 94px
@@ -145,11 +145,11 @@ class _NavBarPainter extends CustomPainter {
           radius: const Radius.circular(cR), clockwise: false)
       // flat top right → notch entry
       ..lineTo(cx + hw, 0)
-      // right half of notch: cubic bezier for smooth U-curve
-      // CP1 stays horizontal (smooth with bar top), CP2 near bottom
-      ..cubicTo(cx + hw - 10, 0, cx + 20, depth, cx, depth)
-      // left half of notch: mirror cubic bezier
-      ..cubicTo(cx - 20, depth, cx - hw + 10, 0, cx - hw, 0)
+      // right half: bezier with CP1 close to entry (smooth rounded corner),
+      // CP2 near circle edge at depth for a gradual flowing descent
+      ..cubicTo(cx + hw - 5, 0, cx + 16, depth, cx, depth)
+      // left half: mirror
+      ..cubicTo(cx - 16, depth, cx - hw + 5, 0, cx - hw, 0)
       // flat top left
       ..lineTo(cR, 0)
       // top-left rounded corner
