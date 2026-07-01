@@ -12,7 +12,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           _TopBar(),
@@ -77,7 +77,7 @@ class _TopBar extends StatelessWidget {
                 IconButton(
                   onPressed: () {},
                   icon: const Icon(Icons.notifications_rounded,
-                      color: Colors.white, size: 26),
+                      color: Color(0xFF333333), size: 26),
                 ),
                 Positioned(
                   top: 6,
@@ -158,7 +158,7 @@ class _TabRow extends StatelessWidget {
                           : FontWeight.w400,
                       color: isSelected
                           ? AppColors.primary
-                          : AppColors.textSecondary,
+                          : const Color(0xFF888888),
                     ),
                   ),
                 ),

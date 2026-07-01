@@ -28,13 +28,11 @@ class CategoryChip extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           gradient: isSelected ? AppColors.primaryGradient : null,
-          color: isSelected ? null : AppColors.surfaceVariant,
+          color: isSelected ? null : const Color(0xFFF0F0F0),
           borderRadius: BorderRadius.circular(20),
           border: isSelected
               ? null
-              : Border.all(
-                  color: AppColors.textHint.withValues(alpha: 0.25),
-                ),
+              : Border.all(color: const Color(0xFFDDDDDD)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -49,7 +47,7 @@ class CategoryChip extends StatelessWidget {
                 fontSize: 12,
                 fontWeight:
                     isSelected ? FontWeight.w700 : FontWeight.w400,
-                color: isSelected ? Colors.white : AppColors.textSecondary,
+                color: isSelected ? Colors.white : const Color(0xFF444444),
               ),
             ),
           ],

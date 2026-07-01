@@ -9,7 +9,7 @@ class SplashView extends GetView<SplashController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Colors.white,
       body: _SplashBody(),
     );
   }
@@ -53,9 +53,7 @@ class _SplashBodyState extends State<_SplashBody>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(gradient: AppColors.backgroundGradient),
-      child: Center(
+    return Center(
         child: AnimatedBuilder(
           animation: _animController,
           builder: (context, child) => FadeTransition(
@@ -114,14 +112,13 @@ class _SplashBodyState extends State<_SplashBody>
                 'Live Streaming',
                 style: TextStyle(
                   fontSize: 14,
-                  color: AppColors.textSecondary,
+                  color: Color(0xFF888888),
                   letterSpacing: 3,
                 ),
               ),
             ],
           ),
         ),
-      ),
     );
   }
 }

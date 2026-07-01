@@ -24,15 +24,8 @@ class HomeBottomNavBar extends StatelessWidget {
             right: 0,
             child: Container(
               height: 72,
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha:0.3),
-                    blurRadius: 12,
-                    offset: const Offset(0, -2),
-                  ),
-                ],
+              decoration: const BoxDecoration(
+                gradient: AppColors.primaryGradient,
               ),
               child: Row(
                 children: [
@@ -77,22 +70,22 @@ class HomeBottomNavBar extends StatelessWidget {
               child: GestureDetector(
                 onTap: () => onTap(2),
                 child: Container(
-                  width: 58,
-                  height: 58,
+                  width: 56,
+                  height: 56,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    gradient: AppColors.primaryGradient,
+                    color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.primary.withValues(alpha:0.5),
-                        blurRadius: 16,
-                        spreadRadius: 2,
+                        color: Colors.black.withValues(alpha: 0.18),
+                        blurRadius: 12,
+                        spreadRadius: 1,
                       ),
                     ],
                   ),
                   child: const Icon(
                     Icons.sensors_rounded,
-                    color: Colors.white,
+                    color: AppColors.primary,
                     size: 28,
                   ),
                 ),
@@ -133,16 +126,15 @@ class _NavItem extends StatelessWidget {
             Icon(
               icon,
               size: 24,
-              color: isSelected ? AppColors.primary : AppColors.textHint,
+              color: isSelected ? Colors.white : Colors.white70,
             ),
             const SizedBox(height: 3),
             Text(
               label,
               style: TextStyle(
                 fontSize: 10,
-                fontWeight:
-                    isSelected ? FontWeight.w600 : FontWeight.w400,
-                color: isSelected ? AppColors.primary : AppColors.textHint,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w400,
+                color: isSelected ? Colors.white : Colors.white70,
               ),
             ),
           ],
