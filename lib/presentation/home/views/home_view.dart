@@ -110,10 +110,14 @@ class _TopBar extends StatelessWidget {
                 height: 42,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  gradient: AppColors.primaryGradient,
+                  gradient: LinearGradient(
+                    colors: [Color(0xFFA4E000), Color(0xFF28A800)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                 ),
-                child: const Icon(Icons.person_rounded,
-                    color: Colors.white, size: 24),
+                child: const Icon(Icons.inventory_2_rounded,
+                    color: Colors.white, size: 22),
               ),
             ),
           ],
