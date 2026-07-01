@@ -56,20 +56,6 @@ class _TopBar extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 10),
-            ShaderMask(
-              shaderCallback: (bounds) =>
-                  AppColors.primaryGradient.createShader(bounds),
-              child: const Text(
-                'Alive',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white,
-                  letterSpacing: 0.5,
-                ),
-              ),
-            ),
             const Spacer(),
             Stack(
               clipBehavior: Clip.none,
@@ -130,42 +116,50 @@ class _TabRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Row(
+    return Obx(() {
+      final selectedIndex = controller.selectedTabIndex.value;
+      return Container(
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1),
+          ),
+        ),
+        child: Row(
           children: List.generate(controller.tabs.length, (i) {
-            final isSelected = controller.selectedTabIndex.value == i;
-            return Expanded(
-              child: GestureDetector(
-                onTap: () => controller.selectTab(i),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: isSelected
-                            ? AppColors.primary
-                            : Colors.transparent,
-                        width: 2.5,
-                      ),
+            final isSelected = selectedIndex == i;
+            return GestureDetector(
+              onTap: () => controller.selectTab(i),
+              child: Container(
+                padding: EdgeInsets.only(
+                  left: i == 0 ? 16 : 0,
+                  right: 20,
+                  top: 13,
+                  bottom: 13,
+                ),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: isSelected ? AppColors.primary : Colors.transparent,
+                      width: 2.5,
                     ),
                   ),
-                  child: Text(
-                    controller.tabs[i],
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: isSelected
-                          ? FontWeight.w700
-                          : FontWeight.w400,
-                      color: isSelected
-                          ? AppColors.primary
-                          : const Color(0xFF888888),
-                    ),
+                ),
+                child: Text(
+                  controller.tabs[i],
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                    color: isSelected
+                        ? const Color(0xFF1A1A1A)
+                        : const Color(0xFF999999),
                   ),
                 ),
               ),
             );
           }),
-        ));
+        ),
+      );
+    });
   }
 }
 
@@ -225,7 +219,7 @@ class _FeedGrid extends StatelessWidget {
 
       return RefreshIndicator(
         color: AppColors.primary,
-        backgroundColor: AppColors.surface,
+        backgroundColor: Colors.white,
         onRefresh: controller.loadFeed,
         child: GridView.builder(
           padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),

@@ -14,7 +14,7 @@ class HomeBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 72,
+      height: 76,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
@@ -23,7 +23,7 @@ class HomeBottomNavBar extends StatelessWidget {
             left: 0,
             right: 0,
             child: Container(
-              height: 72,
+              height: 76,
               decoration: const BoxDecoration(
                 gradient: AppColors.primaryGradient,
               ),
@@ -63,31 +63,45 @@ class HomeBottomNavBar extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 16,
+            bottom: 4,
             left: 0,
             right: 0,
             child: Center(
               child: GestureDetector(
                 onTap: () => onTap(2),
-                child: Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.18),
-                        blurRadius: 12,
-                        spreadRadius: 1,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 52,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.18),
+                            blurRadius: 12,
+                            spreadRadius: 1,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: const Icon(
-                    Icons.sensors_rounded,
-                    color: AppColors.primary,
-                    size: 28,
-                  ),
+                      child: const Icon(
+                        Icons.sensors_rounded,
+                        color: AppColors.primary,
+                        size: 26,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    const Text(
+                      'Go Live',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
