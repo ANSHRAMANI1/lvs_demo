@@ -118,13 +118,7 @@ class _TabRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       final selectedIndex = controller.selectedTabIndex.value;
-      return Container(
-        decoration: const BoxDecoration(
-          border: Border(
-            bottom: BorderSide(color: Color(0xFFEEEEEE), width: 1),
-          ),
-        ),
-        child: Row(
+      return Row(
           children: List.generate(controller.tabs.length, (i) {
             final isSelected = selectedIndex == i;
             return GestureDetector(
@@ -149,7 +143,6 @@ class _TabRow extends StatelessWidget {
               ),
             );
           }),
-        ),
       );
     });
   }
