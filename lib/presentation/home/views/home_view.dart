@@ -165,9 +165,9 @@ class _CategoryRow extends StatelessWidget {
       // Capture reactive value here — itemBuilder is lazy and runs outside Obx scope
       final selectedCategory = controller.selectedCategory.value;
       return SizedBox(
-        height: 48,
+        height: 52,
         child: ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
           scrollDirection: Axis.horizontal,
           itemCount: controller.categories.length,
           itemBuilder: (context, i) {
