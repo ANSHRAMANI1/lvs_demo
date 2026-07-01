@@ -4,8 +4,8 @@ import '../../../app/theme/app_colors.dart';
 // Geometry constants shared between painter and layout
 const double _barH = 68;
 const double _circleD = 52;
-const double _notchR = 27;
-const double _shoulderR = 4; // quarter-circle shoulder for smooth bar→notch transition
+const double _notchR = 32;
+const double _shoulderR = 8; // quarter-circle shoulder for smooth bar→notch transition
 const double _cornerR = 20;
 const double _protrusion = _circleD / 2; // 26px above bar top
 const double _totalH = _barH + _protrusion; // 94px
