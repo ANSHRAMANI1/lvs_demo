@@ -145,11 +145,9 @@ class _NavBarPainter extends CustomPainter {
           radius: const Radius.circular(cR), clockwise: false)
       // flat top right → notch entry
       ..lineTo(cx + hw, 0)
-      // right half: CP1 pulled far inward (long horizontal run before descent),
-      // CP2 near circle edge — creates the wide flowing S-curve matching reference
-      ..cubicTo(cx + 28, 0, cx + 20, depth, cx, depth)
+      ..cubicTo(cx + 40, 0, cx + 22, depth, cx, depth)
       // left half: mirror
-      ..cubicTo(cx - 20, depth, cx - 28, 0, cx - hw, 0)
+      ..cubicTo(cx - 22, depth, cx - 40, 0, cx - hw, 0)
       // flat top left
       ..lineTo(cR, 0)
       // top-left rounded corner
