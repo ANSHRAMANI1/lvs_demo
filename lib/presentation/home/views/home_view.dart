@@ -129,29 +129,21 @@ class _TabRow extends StatelessWidget {
             final isSelected = selectedIndex == i;
             return GestureDetector(
               onTap: () => controller.selectTab(i),
-              child: Container(
+              child: Padding(
                 padding: EdgeInsets.only(
                   left: i == 0 ? 16 : 0,
-                  right: 20,
-                  top: 13,
-                  bottom: 13,
-                ),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: isSelected ? AppColors.primary : Colors.transparent,
-                      width: 2.5,
-                    ),
-                  ),
+                  right: 22,
+                  top: 12,
+                  bottom: 12,
                 ),
                 child: Text(
                   controller.tabs[i],
                   style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                    fontSize: isSelected ? 17 : 15,
+                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w400,
                     color: isSelected
-                        ? const Color(0xFF1A1A1A)
-                        : const Color(0xFF999999),
+                        ? AppColors.primary
+                        : const Color(0xFFAAAAAA),
                   ),
                 ),
               ),
