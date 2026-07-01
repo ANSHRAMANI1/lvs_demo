@@ -60,19 +60,32 @@ class _TopBar extends StatelessWidget {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.notifications_rounded,
-                      color: Color(0xFF333333), size: 26),
+                // Gray circle background
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    width: 42,
+                    height: 42,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFF0F0F0),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.notifications_none_rounded,
+                      color: Color(0xFF888888),
+                      size: 24,
+                    ),
+                  ),
                 ),
+                // Red badge
                 Positioned(
-                  top: 6,
-                  right: 6,
+                  top: 2,
+                  right: 2,
                   child: Container(
                     width: 18,
                     height: 18,
                     decoration: const BoxDecoration(
-                      color: AppColors.liveRed,
+                      color: Colors.red,
                       shape: BoxShape.circle,
                     ),
                     child: const Center(
