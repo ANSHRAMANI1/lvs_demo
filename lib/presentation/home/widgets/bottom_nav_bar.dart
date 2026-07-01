@@ -144,9 +144,9 @@ class _NavBarPainter extends CustomPainter {
       // top edge right → notch entry
       ..lineTo(cx + nR, 0)
       // notch arc: from right entry, curves DOWN then back up to left entry
-      // clockwise=false in Flutter (Y-down) = arc goes downward
+      // clockwise=true in Flutter (Y-down screen coords) = arc goes downward
       ..arcToPoint(Offset(cx - nR, 0),
-          radius: const Radius.circular(nR), clockwise: false)
+          radius: const Radius.circular(nR), clockwise: true)
       // notch exit → top edge left
       ..lineTo(cR, 0)
       // top-left rounded corner
