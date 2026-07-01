@@ -4,8 +4,8 @@ import '../../../app/theme/app_colors.dart';
 // Geometry constants shared between painter and layout
 const double _barH = 68;
 const double _circleD = 52;
-const double _notchR = 32;
-const double _shoulderR = 8; // quarter-circle shoulder for smooth bar→notch transition
+const double _notchHalfW = 42.0; // half-width of notch opening at bar top
+const double _notchDepth = 30.0; // depth of notch (circle radius 26 + 4px clearance)
 const double _cornerR = 20;
 const double _protrusion = _circleD / 2; // 26px above bar top
 const double _totalH = _barH + _protrusion; // 94px
@@ -130,8 +130,8 @@ class _NavBarPainter extends CustomPainter {
 
     final cx = size.width / 2;
     const cR = _cornerR;
-    const nR = _notchR;
-    const sR = _shoulderR;
+    const hw = _notchHalfW;
+    const depth = _notchDepth;
 
     // Trace bar boundary clockwise starting from bottom-left.
     final path = Path()
@@ -143,19 +143,13 @@ class _NavBarPainter extends CustomPainter {
       // top-right rounded corner
       ..arcToPoint(Offset(size.width - cR, 0),
           radius: const Radius.circular(cR), clockwise: false)
-      // flat top right → right shoulder entry
-      ..lineTo(cx + nR + sR, 0)
-      // right shoulder: quarter-circle curving DOWN into notch
-      // center at (cx+nR+sR, sR); CCW arc gives correct tangent (incoming=LEFT, exit=DOWN)
-      ..arcToPoint(Offset(cx + nR, sR),
-          radius: const Radius.circular(sR), clockwise: false)
-      // notch arc: concave curve from right to left, going downward
-      ..arcToPoint(Offset(cx - nR, sR),
-          radius: const Radius.circular(nR), clockwise: true)
-      // left shoulder: quarter-circle curving back UP to bar top
-      // center at (cx-nR, 0); arc goes from down→left = counterclockwise on screen
-      ..arcToPoint(Offset(cx - nR - sR, 0),
-          radius: const Radius.circular(sR), clockwise: false)
+      // flat top right → notch entry
+      ..lineTo(cx + hw, 0)
+      // right half of notch: cubic bezier for smooth U-curve
+      // CP1 stays horizontal (smooth with bar top), CP2 near bottom
+      ..cubicTo(cx + hw - 10, 0, cx + 20, depth, cx, depth)
+      // left half of notch: mirror cubic bezier
+      ..cubicTo(cx - 20, depth, cx - hw + 10, 0, cx - hw, 0)
       // flat top left
       ..lineTo(cR, 0)
       // top-left rounded corner
