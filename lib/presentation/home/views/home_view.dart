@@ -4,6 +4,7 @@ import '../../../app/theme/app_colors.dart';
 import '../controllers/home_controller.dart';
 import '../widgets/bottom_nav_bar.dart';
 import '../widgets/category_chip.dart';
+import '../widgets/profile_tab.dart';
 import '../widgets/stream_card.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -13,14 +14,18 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          _TopBar(),
-          _TabRow(controller: controller),
-          _CategoryRow(controller: controller),
-          Expanded(child: _FeedGrid(controller: controller)),
-        ],
-      ),
+      body: Obx(() {
+        final navIndex = controller.selectedNavIndex.value;
+        if (navIndex == 4) return const ProfileTab();
+        return Column(
+          children: [
+            _TopBar(),
+            _TabRow(controller: controller),
+            _CategoryRow(controller: controller),
+            Expanded(child: _FeedGrid(controller: controller)),
+          ],
+        );
+      }),
       bottomNavigationBar: Obx(() => HomeBottomNavBar(
             selectedIndex: controller.selectedNavIndex.value,
             onTap: controller.selectNav,

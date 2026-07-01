@@ -1,11 +1,22 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import '../../../app/routes/app_routes.dart';
+import '../../../data/datasources/auth_remote_datasource.dart';
 import '../../../domain/entities/stream_item_entity.dart';
 import '../../../domain/usecases/get_stream_feed.dart';
 
 class HomeController extends GetxController {
   final GetStreamFeed getStreamFeedUseCase;
+  final AuthRemoteDataSource _authDataSource = AuthRemoteDataSourceImpl();
 
   HomeController(this.getStreamFeedUseCase);
+
+  User? get currentUser => FirebaseAuth.instance.currentUser;
+
+  Future<void> signOut() async {
+    await _authDataSource.signOut();
+    Get.offAllNamed(Routes.login);
+  }
 
   final RxInt selectedTabIndex = 0.obs;
   final RxString selectedCategory = 'Global'.obs;
