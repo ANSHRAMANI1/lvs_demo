@@ -4,6 +4,9 @@ import '../../../app/theme/app_colors.dart';
 import '../controllers/home_controller.dart';
 import '../widgets/bottom_nav_bar.dart';
 import '../widgets/category_chip.dart';
+import '../widgets/chats_tab.dart';
+import '../widgets/go_live_tab.dart';
+import '../widgets/party_tab.dart';
 import '../widgets/profile_tab.dart';
 import '../widgets/stream_card.dart';
 
@@ -17,6 +20,9 @@ class HomeView extends GetView<HomeController> {
       backgroundColor: Colors.white,
       body: Obx(() {
         final navIndex = controller.selectedNavIndex.value;
+        if (navIndex == 1) return const PartyTab();
+        if (navIndex == 2) return const GoLiveTab();
+        if (navIndex == 3) return const ChatsTab();
         if (navIndex == 4) return const ProfileTab();
         return Column(
           children: [
@@ -39,6 +45,7 @@ class _TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      bottom: false,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
