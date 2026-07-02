@@ -13,6 +13,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       backgroundColor: Colors.white,
       body: Obx(() {
         final navIndex = controller.selectedNavIndex.value;
