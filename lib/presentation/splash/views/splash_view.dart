@@ -67,23 +67,23 @@ class _SplashBodyState extends State<_SplashBody>
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 120,
-                height: 120,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24),
-                  gradient: AppColors.primaryGradient,
+                  borderRadius: BorderRadius.circular(28),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primary.withValues(alpha:0.4),
+                      color: AppColors.primary.withValues(alpha: 0.35),
                       blurRadius: 32,
                       spreadRadius: 4,
+                      offset: const Offset(0, 8),
                     ),
                   ],
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(28),
                   child: Image.asset(
                     'assets/images/logo.png',
+                    width: 140,
+                    height: 140,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, trace) => const Icon(
                       Icons.live_tv_rounded,
@@ -93,25 +93,21 @@ class _SplashBodyState extends State<_SplashBody>
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
-              ShaderMask(
-                shaderCallback: (bounds) =>
-                    AppColors.primaryGradient.createShader(bounds),
-                child: const Text(
-                  'Alive',
-                  style: TextStyle(
-                    fontSize: 42,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                    letterSpacing: 2,
-                  ),
+              const SizedBox(height: 24),
+              const Text(
+                'Alive',
+                style: TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.w800,
+                  color: Color(0xFF2E7D32),
+                  letterSpacing: 2,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 6),
               const Text(
                 'Live Streaming',
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 13,
                   color: Color(0xFF888888),
                   letterSpacing: 3,
                 ),
