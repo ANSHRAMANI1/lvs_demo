@@ -1,5 +1,9 @@
 import '../../domain/entities/stream_item_entity.dart';
 
+/// Data-layer representation of a stream feed item.
+///
+/// Extends [StreamItemEntity] and adds JSON serialisation so the model can
+/// be decoded from REST API responses without touching the domain layer.
 class StreamItemModel extends StreamItemEntity {
   const StreamItemModel({
     required super.id,
@@ -11,6 +15,7 @@ class StreamItemModel extends StreamItemEntity {
     required super.category,
   });
 
+  /// Deserialises a [StreamItemModel] from a JSON map returned by the API.
   factory StreamItemModel.fromJson(Map<String, dynamic> json) {
     return StreamItemModel(
       id: json['id'] as String,
@@ -23,6 +28,7 @@ class StreamItemModel extends StreamItemEntity {
     );
   }
 
+  /// Serialises this model to a JSON map (e.g. for caching or upload).
   Map<String, dynamic> toJson() => {
         'id': id,
         'streamer_name': streamerName,

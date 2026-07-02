@@ -4,7 +4,13 @@ import '../../domain/entities/stream_item_entity.dart';
 import '../../domain/repositories/home_repository.dart';
 import '../datasources/home_remote_datasource.dart';
 
+/// Concrete implementation of [HomeRepository].
+///
+/// Delegates directly to [HomeRemoteDataSource]. Because [StreamItemModel]
+/// extends [StreamItemEntity], the list returned by the data source is already
+/// compatible with the domain type — no extra mapping needed.
 class HomeRepositoryImpl implements HomeRepository {
+  /// The data source injected at construction time (e.g. via [HomeBinding]).
   final HomeRemoteDataSource dataSource;
 
   HomeRepositoryImpl(this.dataSource);

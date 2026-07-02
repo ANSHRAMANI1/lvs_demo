@@ -2,15 +2,21 @@ import '../../core/errors/failures.dart';
 import '../../core/utils/either.dart';
 import '../models/stream_item_model.dart';
 
+/// Contract for remote home-screen data operations (data layer).
 abstract class HomeRemoteDataSource {
+  /// Fetches the stream feed, optionally filtered by [category] and [tab].
   Future<Either<Failure, List<StreamItemModel>>> getStreamFeed({
     String? category,
     String? tab,
   });
 }
 
+/// Stubbed implementation of [HomeRemoteDataSource].
+///
+/// Returns hard-coded [StreamItemModel] fixtures with a simulated network
+/// delay. Replace [getStreamFeed] body with a real Dio call once the API
+/// endpoint is available — no other layer needs to change.
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
-  // Stubbed data — replace with real Dio call when API is available
   @override
   Future<Either<Failure, List<StreamItemModel>>> getStreamFeed({
     String? category,

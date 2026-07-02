@@ -4,12 +4,19 @@ import '../../core/errors/failures.dart';
 import '../../core/utils/either.dart';
 import '../models/user_model.dart';
 
+/// Contract for remote authentication operations (data layer).
 abstract class AuthRemoteDataSource {
+  /// Launches the Google Sign-In flow and signs the credential into Firebase.
   Future<Either<Failure, UserModel>> signInWithGoogle();
+
+  /// Clears both the Firebase Auth session and the Google account token.
   Future<void> signOut();
+
+  /// `true` when a Firebase session is currently active.
   bool get isSignedIn;
 }
 
+/// Firebase + Google Sign-In implementation of [AuthRemoteDataSource].
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -22,6 +29,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     try {
       final googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
+        // User dismissed the account picker without selecting an account.
         return left(const AuthFailure('Sign-in cancelled by user'));
       }
 
@@ -47,6 +55,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<void> signOut() async {
+    // Sign out from both services concurrently to avoid partial state.
     await Future.wait([
       _auth.signOut(),
       _googleSignIn.signOut(),
